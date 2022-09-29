@@ -1,5 +1,5 @@
 {
-  "name": "tp5er/think-queue-amqp",
+  "name": "k99k5/think-queue-amqp",
   "description": "amqp(RabbitMQ) connector for think-queue",
   "license": "MIT",
   "type": "think-extend",
