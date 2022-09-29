@@ -9,7 +9,7 @@ use PhpAmqpLib\Message\AMQPMessage;
 use think\App;
 use think\helper\Arr;
 use think\queue\Job;
-use tp5er\think\queue\Connector\AmqpConnector;
+use think\queue\Connector\AmqpConnector;
 
 
 class Amqp extends Job
