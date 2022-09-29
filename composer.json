@@ -22,6 +22,10 @@
   "autoload": {
     "psr-4": {
       "think\\queue\\": "src"
-    }
+    },
+    "files": [
+			"src/Connector/AmqpConnector.php",
+			"src/Job/Amqp.php"
+		]
   }
 }
