@@ -157,7 +157,24 @@ class AmqpConnector extends Connector
         if ($ttl <= 0) {
             return $this->pushRaw($payload, $queue, ['delay' => $delay, 'attempts' => $attempts]);
         }
-        $destination = $this->getQueue($queue) . '.delay.' . $ttl;
+	
+	
+	    $main_destination = $this->getQueue($queue);
+	    $destination = $this->getQueue($queue) . '.delay.' . $ttl;
+		
+	    //main_queue_declare
+	    $this->declareQueue($main_destination, true, false, $this->getQueueArguments($main_destination));
+	    $exchange = $main_destination . '_exchange';
+	    if (!$this->isExchangeExists($exchange)) {
+		    $this->declareExchange($exchange, AMQPExchangeType::DIRECT);
+		    $this->channel->queue_bind(
+			    $main_destination,
+			    $exchange,
+			    $this->getRoutingKey($destination)
+		    );
+	    }
+	
+		
         //queue_declare
         $this->declareQueue($destination, true, false, $this->getDelayQueueArguments($this->getQueue($queue), $ttl));
 
@@ -388,7 +405,7 @@ class AmqpConnector extends Connector
      */
     protected function isExchangeDeclared(string $name)
     {
-        return in_array($name, $this->exchanges, true);
+        return in_array($name, $this->exchanges ?? [], true);
     }
 
     /**
